@@ -1,0 +1,15 @@
+<app-toolbar [title]="title"></app-toolbar>
+<mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-around center" > 
+        <app-pessoa-filter [placeholderDescribe]="labelFilterNome" (changed)="setFilterNome($event)"></app-pessoa-filter>
+        <app-pessoa-filter [filterMask]="'000.000.000-00'" [placeholderDescribe]="labelFilterCPF" (changed)="setFilterCpf($event)"></app-pessoa-filter>
+
+        <div fxLayout="row" fxLayoutAlign="center center" >
+            <button mat-raised-button (click)="search()">Pesquisar</button>
+            <button mat-raised-button (click)="gotoCreatePessoa()">Cadastrar</button>
+        </div>
+    </div>
+</mat-card>
+
+<app-pessoa-list [pessoas]="pessoas" (requestDelete)="delete($event)" ></app-pessoa-list>
+

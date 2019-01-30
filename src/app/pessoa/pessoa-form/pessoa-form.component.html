@@ -1,0 +1,74 @@
+<app-toolbar [title]="title"></app-toolbar>
+<form [formGroup]="pessoaFormGroup">
+  <mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-around center" > 
+      
+      <div fxLayout="column" fxLayoutAlign="space-around center" >
+        <mat-form-field appearance="outline">
+          <input matInput [formControl]="pessoaFormGroup.get('nome')" placeholder="Nome:">
+          <mat-error *ngIf="pessoaFormGroup.get('nome').invalid">{{getErrorMessage('nome')}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <input matInput [formControl]="pessoaFormGroup.get('email')" placeholder="E-mail:">
+            <mat-error *ngIf="pessoaFormGroup.get('email').invalid">{{getErrorMessage('email')}}</mat-error>
+          </mat-form-field>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center" > 
+        <mat-form-field appearance="outline">
+          <input matInput [formControl]="pessoaFormGroup.get('cpf')" placeholder="CPF:" mask="000.000.000-00">
+          <mat-error *ngIf="pessoaFormGroup.get('cpf').invalid">{{getErrorMessage('cpf')}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput [formControl]="pessoaFormGroup.get('dataNascimento')" placeholder="Data Nascimento:" mask="00/00/0000">
+          <mat-error *ngIf="pessoaFormGroup.get('dataNascimento').invalid">{{getErrorMessage('dataNascimento')}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-card>
+  <mat-divider></mat-divider>
+  <mat-card>
+      <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="start start">
+          <div formArrayName="telefones" *ngFor="let telefone of telefoneForms.controls; let i = index;">
+            <div [formGroupName]="i" fxLayoutAlign="start start" style="padding-right: 10px" fxFlex="50"
+              fxFlex.md="23" fxFlex.sm="30" fxFlex.xs="50">
+              
+              <!-- <mat-form-field>
+                <mat-select placeholder="DDD" 
+                  [formControl]="telefone.get('ddd')">
+                  <mat-option *ngFor="let ddd of listDDD" [value]="ddd">
+                    {{ddd}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="telefone.get('ddd').invalid">{{getErrorMessage('telefones')}}</mat-error>
+              </mat-form-field> -->
+
+              <mat-form-field>
+                <input matInput [formControl]="telefone.get('ddd')">
+                <mat-error *ngIf="telefone.get('ddd').invalid">{{getErrorMessage('telefones')}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <input matInput [formControl]="telefone.get('numero')">
+                <mat-error *ngIf="telefone.get('numero').invalid">{{getErrorMessage('telefones')}}</mat-error>
+              </mat-form-field>
+              
+              <button *ngIf='i == 0' mat-icon-button color="primary" (click)="addTelefone(false)">
+                <mat-icon aria-label="Example icon-button with a heart icon">add_circle</mat-icon>
+              </button>
+              <button *ngIf='i > 0' mat-icon-button color="primary" (click)="deleteTelefone(i)">
+                <mat-icon aria-label="Example icon-button with a heart icon">remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+    <div fxLayout="row" fxLayoutAlign="start center" > 
+      <button mat-raised-button color="accent" (click)="gotoHome()">Voltar</button>
+      
+      <button  *ngIf="pessoa.id"  mat-raised-button [disabled]='!pessoaFormGroup.valid' color="primary" (click)="onUpdatePessoa(pessoaFormGroup.value)">Atualizar</button>
+      <button *ngIf="!pessoa.id" mat-raised-button [disabled]='!pessoaFormGroup.valid' color="primary" (click)="onCreatePessoa(pessoaFormGroup.value)">Adicionar</button>
+    </div>
+  </mat-card>
+</form>
